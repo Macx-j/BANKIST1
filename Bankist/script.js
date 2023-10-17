@@ -600,3 +600,55 @@ const convertTitleCase = function (title) {
 console.log(convertTitleCase('this is a nice title'));
 console.log(convertTitleCase('this is a LONG title but not too long'));
 console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+
+// Get the timer element
+const timerElement = document.querySelector('.timer');
+const logoutTimer = 100; // Timer duration in seconds (e.g., 5 minutes)
+
+let countdown = logoutTimer;
+let timerInterval;
+
+// Function to start the countdown
+function startCountdown() {
+  timerInterval = setInterval(function () {
+    if (countdown > 0) {
+      countdown--;
+      updateTimerDisplay();
+    } else {
+      // Log the user out or perform other actions
+      logoutUser();
+    }
+  }, 1000); // Update the timer every second
+}
+
+// Function to update the timer display
+function updateTimerDisplay() {
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
+  timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(
+    seconds
+  ).padStart(2, '0')}`;
+}
+
+// Function to reset the countdown
+function resetCountdown() {
+  clearInterval(timerInterval);
+  countdown = logoutTimer;
+  updateTimerDisplay();
+  startCountdown();
+}
+
+// Function to log the user out (you can customize this)
+function logoutUser() {
+  // Perform logout actions here (e.g., redirect, clear session)
+  alert('You have been logged out due to inactivity.');
+  // For testing, we'll just refresh the page
+  location.reload();
+}
+
+// Start the countdown when the page loads
+startCountdown();
+
+// Event listener for user activity (mousemove and keypress)
+document.addEventListener('mousemove', resetCountdown);
+document.addEventListener('keypress', resetCountdown);
